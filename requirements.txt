@@ -1,5 +1,7 @@
 pyTelegramBotAPI==3.6.7
 viberbot==1.0.11
+asyncio
+aiohttp
 flask
 sqlalchemy
 psycopg2-binary
