@@ -1,20 +1,6 @@
 version: '3'
 services:
-     db-pgsql:
-        container_name: db-pgsql
-        image: 'postgres:12'
-        restart: always
-        environment:
-            - POSTGRES_USER=teleb0t
-            - POSTGRES_PASSWORD=secret
-            - POSTGRES_DB=bot
-        ports:
-            - "5432:5432"
-        volumes:
-            - '/etc/timezone:/etc/timezone:ro'
-            - '/etc/localtime:/etc/localtime:ro'
-            - '/var/lib/postgresql:/var/lib/postgresql'
-     db-redis:
+    db-redis:
         container_name: db-redis
         image: 'redis:alpine'
         restart: always
@@ -22,6 +8,5 @@ services:
             - REDIS_PORT=6379
         ports:
             - "6379:6379"
-        volumes:
-            - '/etc/timezone:/etc/timezone:ro'  
-            - redis_data:/data      
+        command: redis-server --requirepass secret   
+    

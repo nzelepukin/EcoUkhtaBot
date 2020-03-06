@@ -5,5 +5,7 @@ aiohttp
 flask
 sqlalchemy
 psycopg2-binary
+redis
+googlemaps
 
 
