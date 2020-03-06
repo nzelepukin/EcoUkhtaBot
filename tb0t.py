@@ -4,17 +4,13 @@ from flask import request
 from db import red_set, red_get, insert_user,insert_place,insert_log,select_places,select_place_param,select_userid_by_name
 
 teletoken=os.environ['TELEBOT_TOKEN']
-keyboard1=telebot.types.ReplyKeyboardMarkup(True,True)
-keyboard1.row('battery')
-adminkeyboard=telebot.types.ReplyKeyboardMarkup(True,True)
-keyboard1.row('del user','del place')
 bot = telebot.TeleBot(teletoken)
 
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
     greeting='''
-    Привет, скинь геопозицию и бот покажет ближайшую точку сдачи батареек.
+    Привет, вышли геолокацию и бот покажет ближайшую точку сдачи батареек.
     Хочешь увидеть все точки введи /list 
     '''
     bot.send_message(message.chat.id,greeting)
@@ -42,6 +38,8 @@ def list_message(message):
 @bot.message_handler(commands=['add'])
 def add_message(message):
     bot.send_message(message.chat.id,'Привет, что сдаем?',reply_markup=keyboard1)
+    keyboard1=telebot.types.ReplyKeyboardMarkup(True,True)
+    keyboard1.row('battery')
     insert_user(message)
     bot.register_next_step_handler(message, get_type)
 
@@ -74,5 +72,5 @@ def start_bot(token):
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
 
 def stop_bot(token):
-    bot.remove_webhook()#certificate=open('ssl/eco_crt.crt', 'r'))
-    bot.set_webhook(url='https://ecoukhta.herokuapp.com/tbot/' + token)#,certificate=open('ssl/eco_crt.crt', 'r'))
+    bot.remove_webhook()
+    bot.set_webhook(url='https://ecoukhta.herokuapp.com/tbot/' + token)

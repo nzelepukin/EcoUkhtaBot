@@ -20,6 +20,4 @@ def webhook():
 
 if __name__ == '__main__':
     server.debug = True
-    #ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-    #ssl_context.load_cert_chain('ssl/eco_crt.crt','ssl/eco_crt.key')
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 8443)))#, ssl_context=ssl_context)
+    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 8443)))
