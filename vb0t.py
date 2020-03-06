@@ -18,6 +18,7 @@ bot_configuration = BotConfiguration(
 	auth_token=os.environ('VIBER_TOKEN')
 )
 viber = Api(bot_configuration)
+
 def update_vbot(token):
     if not viber.verify_signature(request.get_data(), request.headers.get('X-Viber-Content-Signature')):
         return Response(status=403)
@@ -34,8 +35,6 @@ def update_vbot(token):
         viber.send_messages(viber_request.get_user.id, [
             TextMessage(text="thanks for subscribing!")
         ])
-    elif isinstance(viber_request, ViberFailedRequest):
-        logger.warn("client failed receiving message. failure: {0}".format(viber_request))
     return Response(status=200)
 
 def start_vbot(token):

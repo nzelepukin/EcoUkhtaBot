@@ -1,7 +1,7 @@
 import os, sys, ssl
 from flask import Flask, request
-from tb0t import start_tbot,update_tbot
-from vb0t import start_vbot,update_vbot
+from tb0t import update_tbot, start_tbot 
+from vb0t import update_vbot, start_vbot
 
 if 'TELEBOT_TOKEN' not in os.environ or 'VIBER_TOKEN' not in os.environ or 'DATABASE_URL' not in os.environ:
     print('REQUIRED VARIABLES NOT SET (TELEBOT_TOKEN or VIBER_TOKEN or DATABASE_URL)')
