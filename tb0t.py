@@ -73,5 +73,5 @@ def start_bot(token):
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
 
 def stop_bot(token):
-    bot.remove_webhook()
+    bot.remove_webhook(certificate=open('ssl/eco_crt.crt', 'r'))
     bot.set_webhook(url='https://ecoukhta.herokuapp.com/' + token,certificate=open('ssl/eco_crt.crt', 'r'))
