@@ -74,4 +74,4 @@ def start_bot(token):
 
 def stop_bot(token):
     bot.remove_webhook()#certificate=open('ssl/eco_crt.crt', 'r'))
-    bot.set_webhook(url='https://ecoukhta.herokuapp.com:8443/tbot/' + token)#,certificate=open('ssl/eco_crt.crt', 'r'))
+    bot.set_webhook(url='https://ecoukhta.herokuapp.com/tbot/' + token)#,certificate=open('ssl/eco_crt.crt', 'r'))
