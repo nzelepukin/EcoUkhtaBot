@@ -1,1 +1,1 @@
-web: python b0t.py
+web: python main.py
