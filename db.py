@@ -5,10 +5,10 @@ from sqlalchemy.orm import sessionmaker,relationship
 
 
                     # DB REDIS part STRATS
-url=os.environ['DATABASE_URL_REDIS']
+url=os.environ['REDIS_URL']
 db_red=redis.Redis.from_url(url)
                     # DB POSTGRES part STRATS
-db_url=os.environ['DATABASE_URL_PG']
+db_url=os.environ['DATABASE_URL']
 engine=create_engine(db_url)
 Base = declarative_base()
 metadata = MetaData()

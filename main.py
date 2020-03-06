@@ -2,8 +2,8 @@ import os, sys
 from flask import Flask, request
 from tb0t import start_bot,stop_bot
 
-if 'TELEBOT_TOKEN' not in os.environ or 'VIBER_TOKEN' not in os.environ or 'DATABASE_URL_PG' not in os.environ:
-    print('REQUIRED VARIABLES NOT SET (TELEBOT_TOKEN or VIBER_TOKEN or DATABASE_PG_URL)')
+if 'TELEBOT_TOKEN' not in os.environ or 'VIBER_TOKEN' not in os.environ or 'DATABASE_URL' not in os.environ:
+    print('REQUIRED VARIABLES NOT SET (TELEBOT_TOKEN or VIBER_TOKEN or DATABASE_URL)')
     sys.exit()
 teletoken=os.environ['TELEBOT_TOKEN']
 server = Flask(__name__)
