@@ -1,5 +1,6 @@
 import os,telebot,sys,json,time,redis
 from helper import distance
+from flask import request
 from db import red_set, red_get, insert_user,insert_place,insert_log,select_places,select_place_param,select_userid_by_name
 
 teletoken=os.environ['TELEBOT_TOKEN']
