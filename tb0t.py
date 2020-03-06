@@ -68,9 +68,9 @@ def get_photo(message):
     insert_place(message,downloaded_file)
     bot.send_message(message.chat.id,'Спасибо за информацию! Пункт добавлен') 
 
-def start_bot(token):
+def update_tbot(token):
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
 
-def stop_bot(token):
+def start_tbot(token):
     bot.remove_webhook()
     bot.set_webhook(url='https://ecoukhta.herokuapp.com/tbot/' + token)

@@ -20,7 +20,7 @@ def Twebhook():
     start_tbot(teletoken)
     return "!", 200
 
-@server.route('/vbot/' + teletoken, methods=['POST'])
+@server.route('/vbot/' + vibertoken, methods=['POST'])
 def getVMessage():
     update_tbot(vibertoken)
     return "!", 200
