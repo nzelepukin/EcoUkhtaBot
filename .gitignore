@@ -1,4 +1,2 @@
 __init__.py
-*.crt
-*.key
 docer-compose.*
