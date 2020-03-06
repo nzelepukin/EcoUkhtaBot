@@ -15,7 +15,7 @@ from viberbot.api.messages.data_types.location import Location
 bot_configuration = BotConfiguration(
 	name='EcoUkhtaBot',
 	avatar='img/EcoLogo.jpg',
-	auth_token=os.environ('VIBER_TOKEN')
+	auth_token=os.environ['VIBER_TOKEN']
 )
 viber = Api(bot_configuration)
 
