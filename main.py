@@ -40,7 +40,9 @@ def Vwebhook():
 @server.route('/vkbot/', methods=['POST'])
 def verifyVMessage():
     # получаем данные из запроса
-    data = request.get_json(force=True, silent=True)
+    try:
+        data = request.json
+    except: return 'not ok'
     # ВКонтакте в своих запросах всегда отправляет поле type:
     if not data or 'type' not in data:
         print (data )
