@@ -4,6 +4,6 @@ flask
 sqlalchemy
 psycopg2-binary
 redis
-googlemaps
+vk-api
 
 

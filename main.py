@@ -31,14 +31,11 @@ def Vwebhook():
     start_tbot(vibertoken)
     return "!", 200
 
-@server.route('/vkbot/' methods=['POST'])
+@server.route('/vkbot/', methods=['POST'])
 def verifyVMessage(request):
     return 'ab21b640', 200
 
-@server.route("/vbot/")
-def Vwebhook():
-    pass
-    return "!", 200
+
 
 if __name__ == '__main__':
     server.debug = True
