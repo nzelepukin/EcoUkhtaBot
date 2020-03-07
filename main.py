@@ -65,6 +65,16 @@ def verifyVMessage():
         )
         # возвращаем серверу VK "ok" и код 200
         return data['object']['body']
+    elif data['type'] == 'wall_post_new':
+        # получаем ID пользователя
+        from_id = data['object']['from_id']
+        # отправляем сообщение
+        vk.messages.send(
+            message=data['object']['text'],
+            peer_id=from_id
+        )
+        # возвращаем серверу VK "ok" и код 200
+        return data['object']['body']
 
     return 'ok'  # игнорируем другие типы
 
