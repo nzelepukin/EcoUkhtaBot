@@ -43,6 +43,7 @@ def verifyVMessage():
     data = request.get_json(force=True, silent=True)
     # ВКонтакте в своих запросах всегда отправляет поле type:
     if not data or 'type' not in data:
+        print (data )
         return 'not ok'
 
     # проверяем тип пришедшего события
