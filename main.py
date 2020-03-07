@@ -56,7 +56,7 @@ def verifyVMessage():
         from_id = data['object']['from_id']
         # отправляем сообщение
         vk.messages.send(
-            message=data['message'],
+            message=data['object']['body'],
             random_id=get_random_id(),
             peer_id=from_id
         )
