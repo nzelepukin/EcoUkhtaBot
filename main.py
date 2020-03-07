@@ -34,7 +34,7 @@ def Vwebhook():
 
 @server.route('/vkbot/', methods=['POST'])
 def verifyVMessage():
-    print (request.json())
+    print (request.json)
     return "ab21b640", 200
 
 
