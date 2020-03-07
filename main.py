@@ -64,7 +64,7 @@ def verifyVMessage():
             peer_id=from_id
         )
         # возвращаем серверу VK "ok" и код 200
-        return 'ok'
+        return data['object']['body']
 
     return 'ok'  # игнорируем другие типы
 
