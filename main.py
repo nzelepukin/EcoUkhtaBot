@@ -1,4 +1,5 @@
 import os, sys, ssl
+import requests
 from flask import Flask, request
 from tb0t import update_tbot, start_tbot 
 from vb0t import update_vbot, start_vbot
@@ -33,7 +34,7 @@ def Vwebhook():
 
 @server.route('/vkbot/', methods=['POST'])
 def verifyVMessage(request):
-    return 'ab21b640', 200
+    return "ab21b640", 200
 
 
 
