@@ -33,7 +33,7 @@ def Vwebhook():
     return "!", 200
 
 @server.route('/vkbot/', methods=['POST'])
-def verifyVMessage(request):
+def verifyVMessage():
     return "ab21b640", 200
 
 
