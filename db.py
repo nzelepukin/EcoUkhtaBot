@@ -80,9 +80,7 @@ def insert_place(message,downloaded_file)->None:
                         photo = downloaded_file )
     session.add(db_place)
     session.commit()
-    ids=[int(db_user.id),int(db_place.id)]
     session.close()
-    insert_log(ids[0],ids[1])
 
 def select_places(util_type='batery'):
     session=Session()
