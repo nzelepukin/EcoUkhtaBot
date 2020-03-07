@@ -37,9 +37,9 @@ def list_message(message):
 
 @bot.message_handler(commands=['add'])
 def add_message(message):
-    bot.send_message(message.chat.id,'Привет, что сдаем?',reply_markup=keyboard1)
     keyboard1=telebot.types.ReplyKeyboardMarkup(True,True)
     keyboard1.row('battery')
+    bot.send_message(message.chat.id,'Привет, что сдаем?',reply_markup=keyboard1)
     insert_user(message)
     bot.register_next_step_handler(message, get_type)
 
