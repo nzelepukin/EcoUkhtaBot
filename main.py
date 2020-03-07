@@ -34,8 +34,10 @@ def Vwebhook():
 
 @server.route('/vkbot/', methods=['POST'])
 def verifyVMessage():
-    print (request.json)
-    return "ab21b640", 200
+    try:
+        if request.json == {'type': 'confirmation', 'group_id': 192738048}: return "ab21b640", 200
+        else: return "none", 200
+    except: return "none", 200
 
 
 
