@@ -80,7 +80,7 @@ def insert_place(message,downloaded_file)->None:
                         photo = downloaded_file )
     session.add(db_place)
     session.commit()
-    ids=[db_user.id,db_place.id]
+    ids=[int(db_user.id),int(db_place.id)]
     session.close()
     insert_log(ids[0],ids[1])
 
