@@ -3,6 +3,7 @@ from flask import Flask, request
 from tb0t import update_tbot, start_tbot 
 from vb0t import update_vbot, start_vbot
 
+
 if 'TELEBOT_TOKEN' not in os.environ or 'VIBER_TOKEN' not in os.environ or 'DATABASE_URL' not in os.environ:
     print('REQUIRED VARIABLES NOT SET (TELEBOT_TOKEN or VIBER_TOKEN or DATABASE_URL)')
     sys.exit()
@@ -28,6 +29,15 @@ def getVMessage():
 @server.route("/vbot/")
 def Vwebhook():
     start_tbot(vibertoken)
+    return "!", 200
+
+@server.route('/vkbot/' methods=['POST'])
+def verifyVMessage(request):
+    return 'ab21b640', 200
+
+@server.route("/vbot/")
+def Vwebhook():
+    pass
     return "!", 200
 
 if __name__ == '__main__':
