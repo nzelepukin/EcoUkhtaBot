@@ -1,5 +1,6 @@
 import vk_api, os
 from vk_api.utils import get_random_id
+from flask import request
 
 vk_session = vk_api.VkApi(token=os.environ['VK_TOKEN'])
 vk = vk_session.get_api()
@@ -32,7 +33,7 @@ def start_vk():
             peer_id=from_id
         )
         # возвращаем серверу VK "ok" и код 200
-        return ok
+        return 'ok'
     elif data['type'] == 'wall_post_new':
         # получаем ID пользователя
         from_id = data['object']['user_id']
