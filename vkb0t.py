@@ -18,6 +18,7 @@ def start_vk():
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW: #and event.to_me and event.text:
             print('id{}: "{}"'.format(event.user_id, event.text), end=' ')
+            return 'ok'
             '''
             if event.lat and event.long:
                     my_location={'latitude':event.lat,'longitude':event.long}
@@ -35,7 +36,14 @@ def start_vk():
                         message=db_place['info']
                     )
                 '''
-    return 'ok'
+    try:
+        data = request.json
+    except: return 'not ok'
+    if data['type'] == 'confirmation':
+        # если это запрос защитного кода
+        # отправляем его
+        return confirmation_code
+    
     '''    
             response = session.get(
                 'http://api.duckduckgo.com/',
