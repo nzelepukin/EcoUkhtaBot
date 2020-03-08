@@ -16,7 +16,7 @@ longpoll = VkLongPoll(vk_session)
 
 def start_vk():
     for event in longpoll.listen():
-        print(event.type,event.message_data)
+        print(event.raw)
         print('^^^ longpoll')
         if event.type == VkEventType.MESSAGE_NEW: #and event.to_me and event.text:
             print('id{}: "{}"'.format(event.user_id, event.text), end=' ')
