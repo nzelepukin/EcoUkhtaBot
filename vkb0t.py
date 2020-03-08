@@ -18,6 +18,7 @@ def start_vk():
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW: #and event.to_me and event.text:
             print('id{}: "{}"'.format(event.user_id, event.text), end=' ')
+            '''
             if event.lat and event.long:
                     my_location={'latitude':event.lat,'longitude':event.long}
                     places = select_places() #red_get(str(message.from_user.id)+'_type'))
@@ -33,6 +34,7 @@ def start_vk():
                         long=db_place['loc_lon'],
                         message=db_place['info']
                     )
+                '''
     return 'ok'
     '''    
             response = session.get(
