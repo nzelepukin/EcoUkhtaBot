@@ -16,7 +16,7 @@ longpoll = VkLongPoll(vk_session)
 
 def start_vk():
     for event in longpoll.listen():
-        if event.type == VkEventType.MESSAGE_NEW and event.to_me and event.text:
+        if event.type == VkEventType.MESSAGE_NEW: #and event.to_me and event.text:
             print('id{}: "{}"'.format(event.user_id, event.text), end=' ')
             if event.lat and event.long:
                     my_location={'latitude':event.lat,'longitude':event.long}
