@@ -16,6 +16,7 @@ longpoll = VkLongPoll(vk_session)
 
 def start_vk():
     for event in longpoll.listen():
+        print('id{}: "{}"'.format(event.user_id, event.text), end=' ')
         if event.type == VkEventType.MESSAGE_NEW: #and event.to_me and event.text:
             print('id{}: "{}"'.format(event.user_id, event.text), end=' ')
             return 'ok'
@@ -39,6 +40,7 @@ def start_vk():
     try:
         data = request.json
     except: return 'not ok'
+    print(data)
     if data['type'] == 'confirmation':
         # если это запрос защитного кода
         # отправляем его
