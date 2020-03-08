@@ -56,6 +56,7 @@ def verifyVMessage():
     # если же это сообщение, отвечаем пользователю
     elif data['type'] == 'message_new':
         # получаем ID пользователя
+        print (data)
         from_id = data['object']['from_id']
         # отправляем сообщение
         vk.messages.send(
