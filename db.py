@@ -72,12 +72,13 @@ def insert_place(message,downloaded_file)->None:
     session=Session()
     user=str(message.from_user.id)
     db_user = session.query(Userinfo).filter(Userinfo.username==user).one()
-    db_place = Place (  user_id = db_user.id, 
-                        util_type = str(db_red.get(user+'_type')),
-                        loc_lat = float(db_red.get(user+'_lat')),
-                        loc_lon = float(db_red.get(user+'_lon')),
-                        info = str(db_red.get(user+'_info')),
-                        photo = downloaded_file )
+    with open(downloaded_file,'rb') as photo:
+        db_place = Place (  user_id = db_user.id, 
+                            util_type = str(db_red.get(user+'_type')),
+                            loc_lat = float(db_red.get(user+'_lat')),
+                            loc_lon = float(db_red.get(user+'_lon')),
+                            info = str(db_red.get(user+'_info')),
+                            photo = photo )
     session.add(db_place)
     session.commit()
     session.close()
