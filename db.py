@@ -67,17 +67,19 @@ def insert_user(message)->None:
     session.commit()   
     session.close()
 
-def insert_place(message,downloaded_file)->None:
+def insert_place(message)->None:
     # Save PLACEINFO in Postgres DB
     session=Session()
     user=str(message.from_user.id)
+    with open('temp.jpg', 'rb') as tmp_file:
+        photo=tmp_file.read()
     db_user = session.query(Userinfo).filter(Userinfo.username==user).one()
     db_place = Place (  user_id = db_user.id, 
                         util_type = str(db_red.get(user+'_type')),
                         loc_lat = float(db_red.get(user+'_lat')),
                         loc_lon = float(db_red.get(user+'_lon')),
                         info = str(db_red.get(user+'_info')),
-                        photo = downloaded_file )
+                        photo = photo )
     session.add(db_place)
     session.commit()
     session.close()

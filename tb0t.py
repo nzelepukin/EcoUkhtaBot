@@ -64,8 +64,10 @@ def get_info(message):
 
 def get_photo(message):
     file_info = bot.get_file(message.photo[0].file_id)
-    downloaded_file = bot.getFile(file_info)
-    insert_place(message,downloaded_file)
+    downloaded_file = bot.download_file(file_info.file_path)
+    with open('temp.jpg', 'wb') as new_file:
+        new_file.write(downloaded_file)
+    insert_place(message)
     bot.send_message(message.chat.id,'Спасибо за информацию! Пункт добавлен') 
 
 def update_tbot(token):
