@@ -1,4 +1,4 @@
-import vk_api
+import vk_api, os
 from vk_api.utils import get_random_id
 
 vk_session = vk_api.VkApi(token=os.environ['VK_TOKEN'])
