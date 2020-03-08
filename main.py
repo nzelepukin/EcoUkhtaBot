@@ -35,7 +35,7 @@ def Vwebhook():
 
 @server.route('/vkbot/', methods=['POST'])
 def VkMessage():
-    start_vk()
+    return start_vk()
 
 if __name__ == '__main__':
     server.debug = True

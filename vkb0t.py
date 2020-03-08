@@ -7,6 +7,8 @@ vk = vk_session.get_api()
 
 confirmation_code = 'ab21b640'
 def start_vk():
+
+    '''
     # получаем данные из запроса
     try:
         data = request.json
@@ -34,15 +36,6 @@ def start_vk():
         )
         # возвращаем серверу VK "ok" и код 200
         return 'ok'
-    elif data['type'] == 'wall_post_new':
-        # получаем ID пользователя
-        from_id = data['object']['user_id']
-        # отправляем сообщение
-        vk.messages.send(
-            message=data['object']['text'],
-            peer_id=from_id
-        )
-        # возвращаем серверу VK "ok" и код 200
-        return data['object']['body']
 
     return 'ok'  # игнорируем другие типы
+    '''
