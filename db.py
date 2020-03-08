@@ -9,7 +9,7 @@ url=os.environ['REDIS_URL']
 db_red=redis.Redis.from_url(url)
                     # DB POSTGRES part STRATS
 db_url=os.environ['DATABASE_URL']
-engine=create_engine(db_url)
+engine=create_engine(db_url+'?charset=utf8')
 Base = declarative_base()
 metadata = MetaData()
 
