@@ -1,15 +1,16 @@
 import telebot,time,redis,os
-from sqlalchemy import Table, Column,DateTime, Integer, String, Float,LargeBinary, MetaData, ForeignKey, engine, create_engine
+from sqlalchemy import Table, Column,DateTime, Integer, String, Float,LargeBinary, MetaData, ForeignKey, engine, create_engine,Unicode
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker,relationship
-
+from sqlalchemy.sql import func
 
                     # DB REDIS part STRATS
 url=os.environ['REDIS_URL']
 db_red=redis.Redis.from_url(url)
                     # DB POSTGRES part STRATS
 db_url=os.environ['DATABASE_URL']
-engine=create_engine(db_url,client_encoding='utf8')
+print(db_url)
+engine=create_engine(db_url,encoding='UTF8')
 Base = declarative_base()
 metadata = MetaData()
 
@@ -26,7 +27,7 @@ class UserLog(Base):
     __tablename__='userlog'
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("userinfo.id"))
-    date=Column(DateTime)
+    date=Column(DateTime(timezone=True), onupdate=func.now())
     place_id = Column(Integer, ForeignKey("place.id"))
     user = relationship("Userinfo", back_populates="logs")
 
@@ -37,7 +38,7 @@ class Place(Base):
     util_type=Column( String(20))
     loc_lat = Column(Float)
     loc_lon = Column(Float)
-    info = Column( String(100))
+    info = Column( String)
     photo = Column(LargeBinary)
 
 Base.metadata.create_all(engine)
@@ -71,14 +72,14 @@ def insert_place(message)->None:
     # Save PLACEINFO in Postgres DB
     session=Session()
     user=str(message.from_user.id)
-    with open('temp.jpg', 'rb') as tmp_file:
-        photo=tmp_file.read()
+    with open('temp.jpg', 'rb') as f:
+        photo=f.read()
     db_user = session.query(Userinfo).filter(Userinfo.username==user).one()
     db_place = Place (  user_id = db_user.id, 
-                        util_type = str(db_red.get(user+'_type')),
+                        util_type = db_red.get(user+'_type').decode('utf-8'),
                         loc_lat = float(db_red.get(user+'_lat')),
                         loc_lon = float(db_red.get(user+'_lon')),
-                        info = str(db_red.get(user+'_info')),
+                        info = db_red.get(user+'_info').decode('utf-8'),
                         photo = photo )
     session.add(db_place)
     session.commit()
