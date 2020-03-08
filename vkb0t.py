@@ -3,6 +3,8 @@ from vk_api import VkUpload
 from vk_api.longpoll import VkLongPoll, VkEventType
 from vk_api.utils import get_random_id
 from flask import request
+from helper import distance
+from db import red_set, red_get, insert_user,insert_place,insert_log,select_places,select_place_param,select_userid_by_name
 
 vk_session = vk_api.VkApi(token=os.environ['VK_TOKEN'])
 vk = vk_session.get_api()
