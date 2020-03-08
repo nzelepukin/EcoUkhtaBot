@@ -57,7 +57,7 @@ def verifyVMessage():
     elif data['type'] == 'message_new':
         # получаем ID пользователя
         print (data)
-        from_id = data['object']['from_id']
+        from_id = data['object']['user_id']
         # отправляем сообщение
         vk.messages.send(
             message=data['object']['body'],
@@ -68,7 +68,7 @@ def verifyVMessage():
         return data['object']['body']
     elif data['type'] == 'wall_post_new':
         # получаем ID пользователя
-        from_id = data['object']['from_id']
+        from_id = data['object']['user_id']
         # отправляем сообщение
         vk.messages.send(
             message=data['object']['text'],
