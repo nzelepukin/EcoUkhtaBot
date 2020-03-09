@@ -51,10 +51,10 @@ def start_vk():
     elif data['type'] == 'message_new':
         print(data['object'])
         if "geo" in data['object']:
-            lat = data['object']['geo']['coordinates']['latitude']
-            lon = data['object']['geo']['coordinates']['longitude']
+            geo = data['object']['geo']['coordinates']
+            lat,lon = geo.split()
             print (lat,lon)
-        if "text" in data['object']:
+        if "body" in data['object']:
             from_id = data['object']['user_id']
             # отправляем сообщение
             vk.messages.send(
