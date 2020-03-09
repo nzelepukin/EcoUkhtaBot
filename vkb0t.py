@@ -53,7 +53,21 @@ def start_vk():
         if "geo" in data['object']:
             geo = data['object']['geo']['coordinates']
             lat,lon = geo.split()
-            print (lat,lon)
+            lat,lon=float(lat),float(lon)
+            my_location={'latitude':float(lat),'longitude':float(lon)}
+            places = select_places() #red_get(str(message.from_user.id)+'_type'))
+            dist={p['id']:distance(my_location['longitude'],my_location['latitude'],p['loc_lon'],p['loc_lat']) for p in places}
+            min_dist=min(dist.keys(), key=(lambda k: dist[k]))
+            db_place = select_place_param(min_dist)
+            photo = upload.photo_messages(photos=db_place['photo'])[0]
+            vk.messages.send(
+                user_id=event.user_id,
+                attachment=[photo],
+                random_id=get_random_id(),
+                lat=db_place['loc_lat'],
+                long=db_place['loc_lon'],
+                message=db_place['info']
+            )
         if "body" in data['object']:
             from_id = data['object']['user_id']
             # отправляем сообщение
