@@ -17,8 +17,7 @@ longpoll = VkLongPoll(vk_session)
 def start_vk():
     for event in longpoll.listen():
         print(event.attachments)
-        print(event.extra)
-        print(event.extra_values)
+        if geo in event.attachments: print(event.attachments['geo'])
         print('^^^ longpoll')
         if event.type == VkEventType.MESSAGE_NEW: #and event.to_me and event.text:
             print('id{}: "{}"'.format(event.user_id, event.text), end=' ')
