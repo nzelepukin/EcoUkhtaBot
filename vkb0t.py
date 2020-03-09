@@ -58,7 +58,7 @@ def start_vk():
             from_id = data['object']['user_id']
             # отправляем сообщение
             vk.messages.send(
-                message=data['object']['text'],
+                message=data['object']['body'],
                 random_id=get_random_id(),
                 peer_id=from_id
             )            
