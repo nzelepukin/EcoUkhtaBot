@@ -62,7 +62,7 @@ def start_vk():
                 random_id=get_random_id(),
                 peer_id=from_id
             )            
-        return 'ok',200
+    return 'ok',200
     '''    
             response = session.get(
                 'http://api.duckduckgo.com/',
