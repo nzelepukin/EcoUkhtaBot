@@ -50,7 +50,7 @@ def start_vk():
         return confirmation_code
     elif data['type'] == 'message_new' and not 'group_id' in data:
         print(data['object'])
-        if "geo" in data['object'] and:
+        if "geo" in data['object']:
             geo = data['object']['geo']['coordinates']
             lat,lon = geo.split()
             lat,lon=float(lat),float(lon)
