@@ -47,7 +47,12 @@ def start_vk():
         # если это запрос защитного кода
         # отправляем его
         return confirmation_code
-    
+    elif data['type'] == 'message_new':
+        if "geo" in data['object']:
+            lat = data['object']['geo']['coordinates']['latitude']
+            lon = data['object']['geo']['coordinates']['longitude']
+            print (lat,lon)
+        return 'ok'
     '''    
             response = session.get(
                 'http://api.duckduckgo.com/',
