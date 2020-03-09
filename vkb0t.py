@@ -48,9 +48,9 @@ def start_vk():
         # если это запрос защитного кода
         # отправляем его
         return confirmation_code
-    elif data['type'] == 'message_new':
+    elif data['type'] == 'message_new' and not 'group_id' in data:
         print(data['object'])
-        if "geo" in data['object']:
+        if "geo" in data['object'] and:
             geo = data['object']['geo']['coordinates']
             lat,lon = geo.split()
             lat,lon=float(lat),float(lon)
