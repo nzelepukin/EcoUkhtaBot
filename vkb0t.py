@@ -62,7 +62,7 @@ def start_vk():
             from_id = data['object']['user_id']
             #photo = upload.photo_messages(photos=db_place['photo'])[0]
             vk.messages.send(
-                peer_id=from_id,
+                user_id=from_id,
                 #attachment=[photo],
                 random_id=get_random_id(),
                 lat=db_place['loc_lat'],
@@ -75,7 +75,7 @@ def start_vk():
             vk.messages.send(
                 message=data['object']['body'],
                 random_id=get_random_id(),
-                peer_id=from_id
+                user_id=from_id
             )            
     return 'ok',200
     '''    
