@@ -7,6 +7,15 @@ teletoken=os.environ['TELEBOT_TOKEN']
 bot = telebot.TeleBot(teletoken)
 
 
+def update_tbot(token):
+    ''' Watching messages from users '''
+    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+
+def start_tbot(token):
+    ''' Removes old Webhook and Set another WebHook '''
+    bot.remove_webhook()
+    bot.set_webhook(url='https://ecoukhta.herokuapp.com/tbot/' + token)
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
     user=str(message.from_user.id)
@@ -16,30 +25,6 @@ def start_message(message):
     Хочешь увидеть все точки введи /list 
     '''
     bot.send_message(message.chat.id,greeting)
-
-@bot.message_handler(commands=['user_list'])
-def admin_userlist_message(message):
-    if isAdmin(str(message.from_user.id)):
-        users= select_users()
-        for u in users:
-            bot.send_message(message.chat.id, '{} {} {} {}'.format(u['username'],u['fio'],u['role'],u['messanger']))
-
-@bot.message_handler(commands=['log'])
-def admin_log_message(message):
-    if isAdmin(str(message.from_user.id)):
-        logs= select_log()
-        for l in logs:
-            bot.send_message(message.chat.id, '{} {} {}'.format(l['user_id'],l['date'],l['place_id']))
-
-@bot.message_handler(commands=['set_admin'])
-def ask_admin_message(message):
-    if isAdmin(str(message.from_user.id)):
-        bot.send_message(message.chat.id,'Введите идентификатор пользователя.')
-        bot.register_next_step_handler(message, set_admin_message)
-
-def set_admin_message(message):
-    set_role(message.text,'admin')
-    bot.send_message(message.chat.id,'Роль пользователя {} изменена.'.format(message.text))
 
 @bot.message_handler(commands=['list'])
 def list_message(message):
@@ -65,8 +50,45 @@ def loc_message(message):
     bot.send_photo(message.chat.id, db_place['photo'],caption=db_place['info'])
     insert_log(select_userid_by_name(str(message.from_user.id)),db_place['id'])
 
+@bot.message_handler(commands=['admin'])
+def admin_start_message(message):
+    if isAdmin(str(message.from_user.id)):
+        greeting='''
+        Админские функции:
+        /add - добавить место
+        /user_list - список пользователей
+        /set_admin - изменить роль пользователя
+        /log - показать логи
+        '''
+        bot.send_message(message.chat.id,greeting)
+
+@bot.message_handler(commands=['user_list'])
+def admin_userlist_message(message):
+    if isAdmin(str(message.from_user.id)):
+        users= select_users()
+        for u in users:
+            bot.send_message(message.chat.id, '{} {} {} {}'.format(u['username'],u['fio'],u['role'],u['messanger']))
+
+@bot.message_handler(commands=['log'])
+def admin_log_message(message):
+    if isAdmin(str(message.from_user.id)):
+        logs= select_log()
+        for l in logs:
+            bot.send_message(message.chat.id, '{} {} {}'.format(l['user_id'],l['date'],l['place_id']))
+
+@bot.message_handler(commands=['set_admin'])
+def ask_admin_message(message):
+    if isAdmin(str(message.from_user.id)):
+        bot.send_message(message.chat.id,'Введите идентификатор пользователя.')
+        bot.register_next_step_handler(message, set_admin_message)
+
+def set_admin_message(message):
+    set_role(message.text,'admin')
+    bot.send_message(message.chat.id,'Роль пользователя {} изменена.'.format(message.text))
+
 @bot.message_handler(commands=['add'])
 def add_message(message):
+    ''' Set of functions to ADD PLACE in BASE '''
     user=str(message.from_user.id)
     insert_user(user,message.from_user.first_name, message.from_user.last_name)
     if isAdmin(str(message.from_user.id)):
@@ -102,9 +124,3 @@ def get_photo(message):
     insert_place(message)
     bot.send_message(message.chat.id,'Спасибо за информацию! Пункт добавлен') 
 
-def update_tbot(token):
-    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
-
-def start_tbot(token):
-    bot.remove_webhook()
-    bot.set_webhook(url='https://ecoukhta.herokuapp.com/tbot/' + token)
