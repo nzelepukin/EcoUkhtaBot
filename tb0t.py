@@ -21,6 +21,15 @@ def userlist_message(message):
     for u in users:
         bot.send_message(message.chat.id, '{} {} {} {}'.format(u['username'],u['fio'],u['role'],u['messanger']))
 
+@bot.message_handler(commands=['set_admin'])
+def ask_admin_message(message):
+    bot.send_message(message.chat.id,'Введите идентификатор пользователя.')
+    bot.register_next_step_handler(message, set_admin_message)
+    
+def set_admin_message(message):
+    set_role(message.text,'admin')
+    bot.send_message(message.chat.id,'Роль пользователя {} изменена.'.format(message.text))
+
 @bot.message_handler(commands=['list'])
 def list_message(message):
     places= select_places() #red_get(str(message.from_user.id)+'_type'))
