@@ -116,10 +116,10 @@ def select_users():
 
 def select_log():
     session=Session()
-    db_log = session.query(Userinfo).all()
-    users_dict=[{'username':p.username,'fio':p.user_fio,'role':p.role, 'messanger':p.messanger} for p in db_users]
+    db_log = session.query(UserLog).all()
+    log_dict=[{'user_id':l.user_id,'date':l.date,'place_id':l.place_id} for l in db_log]
     session.close()
-    return users_dict
+    return log_dict
 
 def select_place_param(place_id:int):
     session=Session()

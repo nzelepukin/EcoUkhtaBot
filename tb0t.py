@@ -1,7 +1,7 @@
 import os,telebot,sys,json,time
 from helper import distance
 from flask import request
-from db import red_set, red_get, insert_user,insert_place,insert_log,select_places
+from db import red_set, red_get, insert_user,insert_place,insert_log,select_places,select_log
 from db import select_place_param,select_userid_by_name, select_users, isAdmin, set_role
 teletoken=os.environ['TELEBOT_TOKEN']
 bot = telebot.TeleBot(teletoken)
@@ -16,16 +16,25 @@ def start_message(message):
     bot.send_message(message.chat.id,greeting)
 
 @bot.message_handler(commands=['user_list'])
-def userlist_message(message):
-    users= select_users()
-    for u in users:
-        bot.send_message(message.chat.id, '{} {} {} {}'.format(u['username'],u['fio'],u['role'],u['messanger']))
+def admin_userlist_message(message):
+    if isAdmin(str(message.from_user.id)):
+        users= select_users()
+        for u in users:
+            bot.send_message(message.chat.id, '{} {} {} {}'.format(u['username'],u['fio'],u['role'],u['messanger']))
+
+@bot.message_handler(commands=['log'])
+def admin_log_message(message):
+    if isAdmin(str(message.from_user.id)):
+        logs= select_log()
+        for l in logs:
+            bot.send_message(message.chat.id, '{} {} {}'.format(l['user_id'],l['date'],l['place_id']))
 
 @bot.message_handler(commands=['set_admin'])
 def ask_admin_message(message):
-    bot.send_message(message.chat.id,'Введите идентификатор пользователя.')
-    bot.register_next_step_handler(message, set_admin_message)
-    
+    if isAdmin(str(message.from_user.id)):
+        bot.send_message(message.chat.id,'Введите идентификатор пользователя.')
+        bot.register_next_step_handler(message, set_admin_message)
+
 def set_admin_message(message):
     set_role(message.text,'admin')
     bot.send_message(message.chat.id,'Роль пользователя {} изменена.'.format(message.text))
@@ -51,11 +60,12 @@ def list_message(message):
 
 @bot.message_handler(commands=['add'])
 def add_message(message):
-    keyboard1=telebot.types.ReplyKeyboardMarkup(True,True)
-    keyboard1.row('battery')
-    bot.send_message(message.chat.id,'Привет, что сдаем?',reply_markup=keyboard1)
-    insert_user(message)
-    bot.register_next_step_handler(message, get_type)
+    if isAdmin(str(message.from_user.id)):
+        keyboard1=telebot.types.ReplyKeyboardMarkup(True,True)
+        keyboard1.row('battery')
+        bot.send_message(message.chat.id,'Привет, что сдаем?',reply_markup=keyboard1)
+        insert_user(message)
+        bot.register_next_step_handler(message, get_type)
 
 def get_type(message):
     user=str(message.from_user.id)
