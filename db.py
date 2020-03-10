@@ -85,9 +85,8 @@ def insert_place(message)->None:
     session.commit()
     session.close()
 
-def set_role(message,new_role)->None:
+def set_role(user,new_role)->None:
     session=Session()
-    user=str(message.from_user.id)
     db_user = session.query(Userinfo).filter(Userinfo.username==user).one()
     db_user.role = new_role
     session.commit()
@@ -111,6 +110,13 @@ def select_places(util_type='batery'):
 def select_users():
     session=Session()
     db_users= session.query(Userinfo).all()
+    users_dict=[{'username':p.username,'fio':p.user_fio,'role':p.role, 'messanger':p.messanger} for p in db_users]
+    session.close()
+    return users_dict
+
+def select_log():
+    session=Session()
+    db_log = session.query(Userinfo).all()
     users_dict=[{'username':p.username,'fio':p.user_fio,'role':p.role, 'messanger':p.messanger} for p in db_users]
     session.close()
     return users_dict
