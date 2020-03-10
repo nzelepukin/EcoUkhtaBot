@@ -52,10 +52,9 @@ def insert_log(user_id:int, place_id:int)->None:
     session.commit()   
     session.close()
 
-def insert_user(message)->None:
+def insert_user(user)->None:
     ''' Save USER in Postgres DB '''
     session=Session()
-    user=str(message.from_user.id)
     user_list=[i[0] for i in session.query(Userinfo.username)]
     if not user in user_list:
         db_user= Userinfo(  username=user, 
