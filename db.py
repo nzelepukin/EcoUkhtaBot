@@ -85,13 +85,35 @@ def insert_place(message)->None:
     session.commit()
     session.close()
 
+def set_role(message,new_role)->None:
+    session=Session()
+    user=str(message.from_user.id)
+    db_user = session.query(Userinfo).filter(Userinfo.username==user).one()
+    db_user.role = new_role
+    session.commit()
+    session.close()
+
+def isAdmin(user):
+    session=Session()
+    db_user = session.query(Userinfo).filter(Userinfo.username==user).one()
+    result= db_user.role
+    session.close()
+    if result == 'admin': return True
+    else: return False
+
 def select_places(util_type='batery'):
     session=Session()
     db_places= session.query(Place).all()
-    print(db_places)
     places_dict=[{'id':p.id,'loc_lon':p.loc_lon,'loc_lat':p.loc_lat} for p in db_places]
     session.close()
     return places_dict
+
+def select_users():
+    session=Session()
+    db_users= session.query(Userinfo).all()
+    users_dict=[{'username':p.username,'fio':p.user_fio,'role':p.role, 'messanger':p.messanger} for p in db_users]
+    session.close()
+    return users_dict
 
 def select_place_param(place_id:int):
     session=Session()

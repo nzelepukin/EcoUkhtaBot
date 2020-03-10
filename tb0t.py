@@ -1,8 +1,8 @@
 import os,telebot,sys,json,time
 from helper import distance
 from flask import request
-from db import red_set, red_get, insert_user,insert_place,insert_log,select_places,select_place_param,select_userid_by_name
-
+from db import red_set, red_get, insert_user,insert_place,insert_log,select_places
+from db import select_place_param,select_userid_by_name, select_users, isAdmin, set_role
 teletoken=os.environ['TELEBOT_TOKEN']
 bot = telebot.TeleBot(teletoken)
 
@@ -15,6 +15,11 @@ def start_message(message):
     '''
     bot.send_message(message.chat.id,greeting)
 
+@bot.message_handler(commands=['user_list'])
+def userlist_message(message):
+    users= select_users()
+    for u in users:
+        bot.send_message(message.chat.id, '{} {} {} {}'.format(u['username'],u['fio'],u['role'],u['messanger']))
 
 @bot.message_handler(commands=['list'])
 def list_message(message):
