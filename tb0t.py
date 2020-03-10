@@ -10,7 +10,7 @@ bot = telebot.TeleBot(teletoken)
 @bot.message_handler(commands=['start'])
 def start_message(message):
     user=str(message.from_user.id)
-    insert_user(user)
+    insert_user(user,message.from_user.first_name, message.from_user.last_name)
     greeting='''
     Привет, вышли геолокацию и бот покажет ближайшую точку сдачи батареек.
     Хочешь увидеть все точки введи /list 
@@ -44,7 +44,7 @@ def set_admin_message(message):
 @bot.message_handler(commands=['list'])
 def list_message(message):
     user=str(message.from_user.id)
-    insert_user(user)
+    insert_user(user,message.from_user.first_name, message.from_user.last_name)
     places= select_places() #red_get(str(message.from_user.id)+'_type'))
     for p in places:
         db_place = select_place_param(p['id'])
@@ -55,7 +55,7 @@ def list_message(message):
 @bot.message_handler(content_types=['location'])
 def loc_message(message):
     user=str(message.from_user.id)
-    insert_user(user)
+    insert_user(user,message.from_user.first_name, message.from_user.last_name)
     my_location={'latitude':message.location.latitude,'longitude':message.location.longitude}
     places = select_places() #red_get(str(message.from_user.id)+'_type'))
     dist={p['id']:distance(my_location['longitude'],my_location['latitude'],p['loc_lon'],p['loc_lat']) for p in places}
@@ -68,7 +68,7 @@ def loc_message(message):
 @bot.message_handler(commands=['add'])
 def add_message(message):
     user=str(message.from_user.id)
-    insert_user(user)
+    insert_user(user,message.from_user.first_name, message.from_user.last_name)
     if isAdmin(str(message.from_user.id)):
         keyboard1=telebot.types.ReplyKeyboardMarkup(True,True)
         keyboard1.row('battery')

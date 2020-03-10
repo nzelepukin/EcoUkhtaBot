@@ -52,13 +52,13 @@ def insert_log(user_id:int, place_id:int)->None:
     session.commit()   
     session.close()
 
-def insert_user(user)->None:
+def insert_user(user,first_name,last_name)->None:
     ''' Save USER in Postgres DB '''
     session=Session()
     user_list=[i[0] for i in session.query(Userinfo.username)]
     if not user in user_list:
         db_user= Userinfo(  username=user, 
-                            user_fio = '{} {}'.format(message.from_user.first_name, message.from_user.last_name),
+                            user_fio = '{} {}'.format(first_name, last_name),
                             messanger = 'telegram',
                             role = 'user')
         session.add(db_user)
