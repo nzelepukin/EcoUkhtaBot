@@ -12,18 +12,17 @@ vk = vk_session.get_api()
 confirmation_code = 'ab21b640'
 
 upload = VkUpload(vk_session)  # Для загрузки изображений
-#longpoll = VkLongPoll(vk_session)
+longpoll = VkLongPoll(vk_session)
 
 def start_vk():
-    '''
     for event in longpoll.listen():
         print(event.attachments)
         if 'geo' in event.attachments: print(event.attachments['geo'])
         print('^^^ longpoll')
-        if event.type == VkEventType.MESSAGE_NEW: #and event.to_me and event.text:
+        if event.type == VkEventType.MESSAGE_NEW and event.to_me and event.text:
             print('id{}: "{}"'.format(event.user_id, event.text), end=' ')
             return 'ok'
-            
+            '''
             if event.lat and event.long:
                     my_location={'latitude':event.lat,'longitude':event.long}
                     places = select_places() #red_get(str(message.from_user.id)+'_type'))
@@ -39,7 +38,7 @@ def start_vk():
                         long=db_place['loc_lon'],
                         message=db_place['info']
                     )
-                '''
+
     try:
         data = request.json
     except: return 'not ok'
@@ -62,7 +61,7 @@ def start_vk():
             from_id = data['object']['user_id']
             #photo = upload.photo_messages(photos=db_place['photo'])[0]
             vk.messages.send(
-                user_id=from_id,
+                peer_id=from_id,
                 #attachment=[photo],
                 random_id=get_random_id(),
                 lat=db_place['loc_lat'],
@@ -75,9 +74,10 @@ def start_vk():
             vk.messages.send(
                 message=data['object']['body'],
                 random_id=get_random_id(),
-                user_id=from_id
+                peer_id=from_id
             )            
     return 'ok',200
+    '''
     '''    
             response = session.get(
                 'http://api.duckduckgo.com/',
