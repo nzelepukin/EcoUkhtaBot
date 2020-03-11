@@ -21,7 +21,7 @@ def start_vk():
         print(event.type)
         if event.type == VkEventType.MESSAGE_NEW: #and event.to_me and event.text:
             print('id{}: "{}"'.format(event.user_id, event.text), end=' ')
-            return 'ok'
+        return 'ok'
             '''
             if event.lat and event.long:
                     my_location={'latitude':event.lat,'longitude':event.long}
