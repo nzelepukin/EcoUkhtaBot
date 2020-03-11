@@ -2,5 +2,6 @@ __init__.py
 docker-compose.*
 *.crt
 *.key
-__*
+ssl
+__pycache__
 
