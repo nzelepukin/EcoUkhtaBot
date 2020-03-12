@@ -42,7 +42,9 @@ def Images():
     if request.args.get('img'): place = str(request.args.get('img'))
     else: place = '1'
     db_place = select_place_param(place)
-    return send_file(db_place['photo'], mimetype='image/gif')
+    with open(place+ '.jpg', 'wb') as new_file:
+        new_file.write(db_place['photo'])
+    return send_file(place+'.jpg', mimetype='image/jpg')
 
 if __name__ == '__main__':
     server.debug = True
