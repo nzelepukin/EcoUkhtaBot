@@ -2,7 +2,6 @@ import os, sys, ssl
 import requests
 from flask import Flask, request, send_file
 from tb0t import update_tbot, start_tbot 
-from vb0t import update_vbot, start_vbot
 from vkb0t import start_vk
 from db import select_place_param
 
