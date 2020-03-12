@@ -1,6 +1,6 @@
 from math import radians, cos, sin, asin, sqrt
 
-def distance(lon1, lat1, lon2, lat2):
+def distance(lon1:float, lat1:float, lon2:float, lat2:float)->int:
     """
     Calculate the great circle distance between two points 
     on the earth (specified in decimal degrees)
