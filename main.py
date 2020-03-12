@@ -1,11 +1,10 @@
 import os, sys, ssl
 import requests
-from flask import Flask, request
+from flask import Flask, request, send_file
 from tb0t import update_tbot, start_tbot 
 from vb0t import update_vbot, start_vbot
 from vkb0t import start_vk
 from db import select_place_param
-
 
 if 'TELEBOT_TOKEN' not in os.environ or 'VIBER_TOKEN' not in os.environ or 'DATABASE_URL' not in os.environ:
     print('REQUIRED VARIABLES NOT SET (TELEBOT_TOKEN or VIBER_TOKEN or DATABASE_URL)')
@@ -40,12 +39,10 @@ def VkMessage():
 
 @server.route('/images/', methods=['GET'])
 def Images():
-    try:
-        place = str(request.args.get('img'))
-    except:
-        place = '1'
+    if request.args.get('img'): place = str(request.args.get('img'))
+    else: place = '1'
     db_place = select_place_param(place)
-    return db_place['info'], 200
+    return send_file(db_place['photo'], mimetype='image/gif')
 
 if __name__ == '__main__':
     server.debug = True
