@@ -20,9 +20,24 @@ def start_vk():
         #print('^^^ longpoll')
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
             result = vk_session.method("messages.getById", {"message_ids": [event.message_id],"group_id": 192738048})
-            geo = result['items'][0]['geo']['coordinates']
-            latitude, longitude = geo['latitude'], geo['longitude']
-            print(latitude, longitude)
+            if result['items'][0]['geo']:
+                geo = result['items'][0]['geo']['coordinates']
+                latitude, longitude = geo['latitude'], geo['longitude']
+                print(latitude, longitude)
+                my_location={'latitude':latitude,'longitude':longitude}
+                places = select_places()
+                dist={p['id']:distance(my_location['longitude'],my_location['latitude'],p['loc_lon'],p['loc_lat']) for p in places}
+                min_dist=min(dist.keys(), key=(lambda k: dist[k]))
+                db_place = select_place_param(min_dist)
+                photo = upload.photo_messages(photos=db_place['photo'])[0]
+                vk.messages.send(
+                    user_id=event.user_id,
+                    attachment=[photo],
+                    random_id=get_random_id(),
+                    lat=db_place['loc_lat'],
+                    long=db_place['loc_lon'],
+                    message=db_place['info']
+                )
             return 'ok'
         else: return 'ok'
 
