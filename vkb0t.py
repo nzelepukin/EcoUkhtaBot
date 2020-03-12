@@ -29,10 +29,10 @@ def start_vk():
                 dist={p['id']:distance(my_location['longitude'],my_location['latitude'],p['loc_lon'],p['loc_lat']) for p in places}
                 min_dist=min(dist.keys(), key=(lambda k: dist[k]))
                 db_place = select_place_param(min_dist)
-                photo = upload.photo_messages(photos=db_place['photo'])[0]
+                #photo = upload.photo_messages(photos=db_place['photo'])[0]
                 vk.messages.send(
                     user_id=event.user_id,
-                    attachment=[photo],
+                    #attachment=[photo],
                     random_id=get_random_id(),
                     lat=db_place['loc_lat'],
                     long=db_place['loc_lon'],
