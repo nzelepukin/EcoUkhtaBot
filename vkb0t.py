@@ -20,7 +20,7 @@ def start_vk():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
             user_info={'username':event.user_id, 'messanger':'vk'}
             user_res=vk_session.method("users.get",{'user_ids':[user_info['username']],'fields':['id','first_name','last_name']})
-            print(user_res['items'])
+            print(user_res)
             result = vk_session.method("messages.getById", {"message_ids": [event.message_id],"group_id": 192738048})
             if result['items'][0]['geo']:
                 geo = result['items'][0]['geo']['coordinates']
