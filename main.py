@@ -4,6 +4,7 @@ from flask import Flask, request
 from tb0t import update_tbot, start_tbot 
 from vb0t import update_vbot, start_vbot
 from vkb0t import start_vk
+from db import select_place_param
 
 
 if 'TELEBOT_TOKEN' not in os.environ or 'VIBER_TOKEN' not in os.environ or 'DATABASE_URL' not in os.environ:
@@ -37,15 +38,14 @@ def Vwebhook():
 def VkMessage():
     return start_vk()
 
-@server.route('/images', methods=['GET'])
+@server.route('/images/', methods=['GET'])
 def Images():
-    print(request.query_string)
-    print(request.url)
     try:
-        img = request.args.get('img')
+        place = request.args.get('img')
     except:
-        img = 'none'
-    return img, 200
+        place = 1
+    db_place = select_place_param(place)
+    return db_place['photo'], 200
 
 if __name__ == '__main__':
     server.debug = True
