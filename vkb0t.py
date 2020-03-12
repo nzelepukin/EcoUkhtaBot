@@ -4,12 +4,13 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 from vk_api.utils import get_random_id
 from flask import request
 from helper import distance
+from requests import Session
 from db import red_set, red_get, insert_user,insert_place,insert_log,select_places,select_place_param,select_userid_by_name
 
 vk_session = vk_api.VkApi(token=os.environ['VK_TOKEN'])
 vk = vk_session.get_api()
-
-confirmation_code = 'ab21b640'
+session=Session()
+confirmation_code = os.environ['VK_CONFIRM_CODE']
 
 upload = VkUpload(vk_session)  # Для загрузки изображений
 longpoll = VkLongPoll(vk_session)
@@ -27,10 +28,13 @@ def start_vk():
                 dist={p['id']:distance(my_location['longitude'],my_location['latitude'],p['loc_lon'],p['loc_lat']) for p in places}
                 min_dist=min(dist.keys(), key=(lambda k: dist[k]))
                 db_place = select_place_param(min_dist)
-                #photo = upload.photo_messages(photos=db_place['photo'])[0]
+                image_url = 'https://ecoukhta.herokuapp.com/images/'+db_place['id']+'.jpg'
+                image = session.get(image_url, stream=True)
+                photo = upload.photo_messages(photos=image.raw)[0]
+                attachments='photo{}_{}'.format(photo['owner_id'], photo['id'])
                 vk.messages.send(
                     user_id=event.user_id,
-                    #attachment=[photo],
+                    attachment=attachments,
                     random_id=get_random_id(),
                     lat=db_place['loc_lat'],
                     long=db_place['loc_lon'],
