@@ -28,7 +28,7 @@ def start_vk():
                 dist={p['id']:distance(my_location['longitude'],my_location['latitude'],p['loc_lon'],p['loc_lat']) for p in places}
                 min_dist=min(dist.keys(), key=(lambda k: dist[k]))
                 db_place = select_place_param(min_dist)
-                image_url = 'https://ecoukhta.herokuapp.com/images/'+db_place['id']+'.jpg'
+                image_url = 'https://ecoukhta.herokuapp.com/images/'+str(db_place['id'])+'.jpg'
                 image = session.get(image_url, stream=True)
                 photo = upload.photo_messages(photos=image.raw)[0]
                 attachments='photo{}_{}'.format(photo['owner_id'], photo['id'])
