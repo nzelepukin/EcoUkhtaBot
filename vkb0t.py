@@ -18,9 +18,12 @@ def start_vk():
     for event in longpoll.listen():
         #if 'geo' in event.attachments: print(event.attachments['geo'])
         #print('^^^ longpoll')
-        print(event.raw)
-        if event.type == VkEventType.MESSAGE_NEW: #and event.to_me and event.text:
-            print('id{}: "{}"'.format(event.user_id, event.text), end=' ')
+        if event.type == VkEventType.MESSAGE_NEW and event.to_me:
+            result = vk_session.method("messages.getById", {"message_ids": [event.message_id],
+                                                            "group_id": 189072320})
+            geo = result['items'][0]['geo']['coordinates']
+            latitude, longitude = geo['latitude'], geo['longitude']
+            print(latitude, longitude)
             return 'ok'
         else: return 'ok'
 
