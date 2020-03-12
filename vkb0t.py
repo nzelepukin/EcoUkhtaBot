@@ -20,7 +20,7 @@ def start_vk():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
             user_info={'username':event.user_id, 'messanger':'vk'}
             user_res=vk_session.method("users.get",{'user_ids':[user_info['username']],'fields':['id','first_name','last_name']})
-            print(user_res)
+            insert_user(user_res[0]['id'],user_res[0]['first_name'],user_res[0]['first_name'],'vk')
             result = vk_session.method("messages.getById", {"message_ids": [event.message_id],"group_id": 192738048})
             if result['items'][0]['geo']:
                 geo = result['items'][0]['geo']['coordinates']
@@ -43,6 +43,7 @@ def start_vk():
                     long=db_place['loc_lon'],
                     message=db_place['info']
                 )
+                insert_log(select_userid_by_name(str(user_res[0]['id'])),db_place['id'])
             return 'ok'
         else: return 'ok'
 

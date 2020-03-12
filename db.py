@@ -119,14 +119,14 @@ def select_place_param(place_id:int)->dict:
     return result
 
 
-def insert_user(user:str,first_name:str,last_name:str)->None:
+def insert_user(user:str,first_name:str,last_name:str,messanger:str)->None:
     ''' Save USER in Postgres DB '''
     session=Session()
     user_list=[i[0] for i in session.query(Userinfo.username)]
     if not user in user_list:
         db_user= Userinfo(  username=user, 
                             user_fio = '{} {}'.format(first_name, last_name),
-                            messanger = 'telegram',
+                            messanger = messanger,
                             role = 'user')
         session.add(db_user)
     else: 
