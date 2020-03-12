@@ -37,6 +37,14 @@ def Vwebhook():
 def VkMessage():
     return start_vk()
 
+@server.route('/images/', methods=['GET'])
+def Images():
+    try:
+        img = request.args.get('img')
+    except:
+        img = 'none'
+    return img, 200
+
 if __name__ == '__main__':
     server.debug = True
     server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 8443)))
