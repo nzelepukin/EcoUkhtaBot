@@ -41,11 +41,11 @@ def VkMessage():
 @server.route('/images/', methods=['GET'])
 def Images():
     try:
-        place = request.args.get('img')
+        place = str(request.args.get('img'))
     except:
-        place = 1
+        place = '1'
     db_place = select_place_param(place)
-    return db_place['photo'], 200
+    return db_place['info'], 200
 
 if __name__ == '__main__':
     server.debug = True
