@@ -39,6 +39,8 @@ def VkMessage():
 
 @server.route('/images/', methods=['GET'])
 def Images():
+    print(request.query_string)
+    print(request.url)
     try:
         img = request.args.get('img')
     except:
