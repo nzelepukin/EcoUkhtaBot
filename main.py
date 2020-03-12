@@ -37,7 +37,7 @@ def Vwebhook():
 def VkMessage():
     return start_vk()
 
-@server.route('/images/', methods=['GET'])
+@server.route('/images', methods=['GET'])
 def Images():
     print(request.query_string)
     print(request.url)
