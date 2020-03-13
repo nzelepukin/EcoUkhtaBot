@@ -76,7 +76,7 @@ def admin_ask_del_user(message):
         bot.register_next_step_handler(message, admin_del_user)
 
 def admin_del_user(message):
-    delete_user(message.text)
+    delete_user(int(message.text))
     bot.send_message(message.chat.id,'Пользователь {} удален.'.format(message.text))
 
 @bot.message_handler(commands=['log'])

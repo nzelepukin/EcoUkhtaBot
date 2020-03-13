@@ -137,7 +137,7 @@ def insert_user(user:str,first_name:str,last_name:str,messanger:str)->None:
 def delete_user(user:int)->None:
     ''' Delete User from Postgres and all his locations '''
     session=Session()
-    db_user = session.query(Userinfo).filter(Userinfo.username==user).one()
+    db_user = session.query(Userinfo).filter(Userinfo.id==user).one()
     session.delete(db_user)
     session.commit()
     session.close()
