@@ -123,7 +123,7 @@ def insert_user(user:str,first_name:str,last_name:str,messanger:str)->None:
     ''' Save USER in Postgres DB '''
     session=Session()
     user_list=[i[0] for i in session.query(Userinfo.username)]
-    if not user in user_list:
+    if not str(user) in user_list:
         db_user= Userinfo(  username=user, 
                             user_fio = '{} {}'.format(first_name, last_name),
                             messanger = messanger,
@@ -155,7 +155,7 @@ def select_users()->dict:
     ''' Select USERS from Postgres DB '''
     session=Session()
     db_users= session.query(Userinfo).all()
-    users_dict=[{'username':p.username,'fio':p.user_fio,'role':p.role, 'messanger':p.messanger} for p in db_users]
+    users_dict=[{'id':p.id,'username':p.username,'fio':p.user_fio,'role':p.role, 'messanger':p.messanger} for p in db_users]
     session.close()
     return users_dict
 

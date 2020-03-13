@@ -18,8 +18,7 @@ longpoll = VkLongPoll(vk_session)
 def start_vk():
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            user_info={'username':event.user_id, 'messanger':'vk'}
-            user_res=vk_session.method("users.get",{'user_ids':[user_info['username']],'fields':['id','first_name','last_name']})
+            user_res=vk_session.method("users.get",{'user_ids':[event.user_id],'fields':['id','first_name','last_name']})
             insert_user(user_res[0]['id'],user_res[0]['first_name'],user_res[0]['last_name'],'vk')
             result = vk_session.method("messages.getById", {"message_ids": [event.message_id],"group_id": 192738048})
             if result['items'][0]['geo']:

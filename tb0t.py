@@ -67,7 +67,7 @@ def admin_userlist_message(message):
     if isAdmin(str(message.from_user.id)):
         users= select_users()
         for u in users:
-            bot.send_message(message.chat.id, '{} {} {} {}'.format(u['username'],u['fio'],u['role'],u['messanger']))
+            bot.send_message(message.chat.id, '{} {} {} {} {}'.format(u['id'],u['username'],u['fio'],u['role'],u['messanger']))
 
 @bot.message_handler(commands=['log'])
 def admin_log_message(message):
