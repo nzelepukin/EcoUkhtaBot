@@ -80,7 +80,7 @@ def select_log_stats()->dict:
         'month' : current_time - datetime.timedelta(weeks=4),
         'quarter' : current_time - datetime.timedelta(weeks=12),
         'year' : current_time - datetime.timedelta(days=365)}
-    results = { period:len(session.query(UserLog).all(UserLog.date<periods[period]).all()) for period in periods }
+    results = { period:len(session.query(UserLog).filter(UserLog.date<periods[period]).all()) for period in periods }
     session.close()
     return results
 
