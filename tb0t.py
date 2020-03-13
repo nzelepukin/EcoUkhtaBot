@@ -2,7 +2,7 @@ import os,telebot,sys,json,time
 from helper import distance
 from flask import request
 from db import red_set, red_get, insert_user,insert_place,insert_log,select_places,select_log
-from db import select_place_param,select_userid_by_name, select_users, isAdmin, set_role
+from db import select_place_param,select_userid_by_name, select_users, isAdmin, set_role, delete_user, delete_place
 teletoken=os.environ['TELEBOT_TOKEN']
 bot = telebot.TeleBot(teletoken)
 
@@ -68,6 +68,16 @@ def admin_userlist_message(message):
         users= select_users()
         for u in users:
             bot.send_message(message.chat.id, '{} {} {} {} {}'.format(u['id'],u['username'],u['fio'],u['role'],u['messanger']))
+
+@bot.message_handler(commands=['del_user'])
+def admin_ask_del_user(message):
+    if isAdmin(str(message.from_user.id)):
+        bot.send_message(message.chat.id,'Введите идентификатор пользователя.')
+        bot.register_next_step_handler(message, admin_del_user)
+
+def admin_del_user(message):
+    delete_user(message.text)
+    bot.send_message(message.chat.id,'Пользователь {} удален.'.format(message.text))
 
 @bot.message_handler(commands=['log'])
 def admin_log_message(message):

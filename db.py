@@ -134,6 +134,14 @@ def insert_user(user:str,first_name:str,last_name:str,messanger:str)->None:
     session.commit()   
     session.close()
 
+def delete_user(user:int)->None:
+    ''' Delete User from Postgres and all his locations '''
+    session=Session()
+    db_user = session.query(Userinfo).filter(Place.place_id==user).one()
+    session.delete(db_user)
+    session.commit()
+    session.close()
+
 def set_role(user:str,new_role:str)->None:
     ''' Set ROLE to USER '''
     session=Session()
