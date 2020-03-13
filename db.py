@@ -1,4 +1,4 @@
-import telebot,time,redis,os
+import telebot,time,redis,os,datetime
 from sqlalchemy import Table, Column,DateTime, Integer, String, Float,LargeBinary, MetaData, ForeignKey, engine, create_engine,Unicode
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker,relationship
@@ -71,6 +71,18 @@ def select_log()->dict:
     log_dict=[{'user_id':l.user_id,'date':l.date,'place_id':l.place_id} for l in db_log]
     session.close()
     return log_dict
+
+def select_log_stats()->dict:
+    ''' Select statistic log information '''
+    session=Session()
+    current_time = datetime.datetime.utcnow()
+    periods= {
+        'month' : current_time - datetime.timedelta(weeks=4),
+        'quarter' : current_time - datetime.timedelta(weeks=12),
+        'year' : current_time - datetime.timedelta(days=365)}
+    results = { period:len(session.query(UserLog).all(UserLog.date<periods[period]).all()) for period in periods }
+    session.close()
+    return results
 
 def insert_place(message)->None:
     ''' Save PLACE info in Postgres DB '''

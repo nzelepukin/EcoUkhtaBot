@@ -1,7 +1,7 @@
 import os,telebot,sys,json,time
 from helper import distance
 from flask import request
-from db import red_set, red_get, insert_user,insert_place,insert_log,select_places,select_log
+from db import red_set, red_get, insert_user,insert_place,insert_log,select_places,select_log,select_log_stats
 from db import select_place_param,select_userid_by_name, select_users, isAdmin, set_role, delete_user, delete_place
 teletoken=os.environ['TELEBOT_TOKEN']
 bot = telebot.TeleBot(teletoken)
@@ -86,6 +86,13 @@ def admin_log_message(message):
         if len(logs)>5: logs=logs[-5:]
         for l in logs:
             bot.send_message(message.chat.id, '{} {} {}'.format(l['user_id'],l['date'],l['place_id']))
+
+@bot.message_handler(commands=['log_stat'])
+def admin_log_stat(message):
+    if isAdmin(str(message.from_user.id)):
+        logs= select_log_stats()
+        for l in logs:
+            bot.send_message(message.chat.id, '{} {}'.format(l,logs[l]))
 
 @bot.message_handler(commands=['set_admin'])
 def ask_admin_message(message):
