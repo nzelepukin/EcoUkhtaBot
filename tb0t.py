@@ -83,6 +83,7 @@ def admin_del_user(message):
 def admin_log_message(message):
     if isAdmin(str(message.from_user.id)):
         logs= select_log()
+        if len(logs)>5: logs=logs[-5:]
         for l in logs:
             bot.send_message(message.chat.id, '{} {} {}'.format(l['user_id'],l['date'],l['place_id']))
 
