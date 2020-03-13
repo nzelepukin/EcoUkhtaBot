@@ -27,12 +27,14 @@ def VkMessage():
 
 @server.route('/images/', methods=['GET'])
 def Images():
-    if request.args.get('img'): place = str(request.args.get('img'))
-    else: place = '1'
-    db_place = select_place_param(place)
-    with open(place+ '.jpg', 'wb') as new_file:
-        new_file.write(db_place['photo'])
-    return send_file(place+'.jpg', mimetype='image/jpg')
+    try:
+        if request.args.get('img'): place = str(request.args.get('img'))
+        else: place = '1'
+        db_place = select_place_param(place)
+        with open(place+ '.jpg', 'wb') as new_file:
+            new_file.write(db_place['photo'])
+        return send_file(place+'.jpg', mimetype='image/jpg')
+    except: return "!", 200
 
 if __name__ == '__main__':
     server.debug = True

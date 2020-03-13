@@ -8,7 +8,6 @@ from sqlalchemy.sql import func
 url=os.environ['REDIS_URL']
 db_red=redis.Redis.from_url(url)
 
-
 def red_set(key:str,value:str)->None:
     ''' REDIS write parameter '''
     db_red.set(key,value)
